@@ -52,5 +52,27 @@ def drawGameState(screen, gs):
     # Adicionar highlighting nas peças ou sugestões de movimento
     drawPieces(screen, gs.board) # Desenhar as peças em cima dos quadrados
 
+
+'''
+-Desenha os quadrados no tabuleiro. O quadrado do top a esquerda é sempre branco.
+'''
+def drawBoard(screen):
+    colors = [p.Color("white"), p.Color("gray")]
+    for r in range(DIMENSION):
+        for c in range(DIMENSION):
+            color = colors[((r+c)%2)]
+            p.draw.rect(screen, color, p.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+
+'''
+-Desenha as peças no tabuleiro usando o atual GameState.board
+'''
+
+def drawPieces(screen, board):
+    for row in range(DIMENSION):
+        for c in range(DIMENSION):
+            piece = board[r][c]
+            if piece != "--": #não for um quadrado vazio
+                screen.blit(IMAGES[piece], p.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))   
+
 if __name__ == "__main__":
     main()
