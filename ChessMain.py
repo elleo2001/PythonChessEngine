@@ -4,7 +4,8 @@
 """
 
 import pygame as p
-from Chess import ChessEngine
+
+import ChessEngine
 
 p.init()
 WIDTH = HEIGHT = 512
@@ -39,7 +40,7 @@ def main():
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
-        drawGameState(scree, gs)
+        drawGameState(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()
 
@@ -68,7 +69,7 @@ def drawBoard(screen):
 '''
 
 def drawPieces(screen, board):
-    for row in range(DIMENSION):
+    for r in range(DIMENSION):
         for c in range(DIMENSION):
             piece = board[r][c]
             if piece != "--": #não for um quadrado vazio
