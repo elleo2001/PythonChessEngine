@@ -7,7 +7,7 @@ import pygame as p
 
 import ChessEngine
 
-p.init()
+p.init() # Inicia o pygame
 WIDTH = HEIGHT = 512
 DIMENSION = 8
 SQ_SIZE = HEIGHT // DIMENSION
@@ -20,7 +20,7 @@ IMAGES = {}
 def loadImages():
     pieces = ['wp', 'wR', 'wN', 'wB', 'wQ', 'wK', 'bp', 'bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bK', 'bR']
     for piece in pieces:
-        IMAGES[piece] = p.transform.scale(p.image.load("images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE))
+        IMAGES[piece] = p.transform.scale(p.image.load("images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE)) # For loop para carregar / ?fazer o display das imagens?
     # Nota: é possível acessar uma imagem através de 'IMAGES['wp']'
 
 '''
@@ -36,10 +36,26 @@ def main():
     gs = ChessEngine.GameState()
     loadImages()
     running = True
+    sqSelected = () # Nenhum quadrado é selecionado, ele apenas rastreia o último clique do usuário (tuple: (row, col))
+    playerClicks = [] # Mantem rastreado os cliques do jogador (duas tuples: [(6,4), (4,4)]) 
     while running:
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
+            elif e.type == p.MOUSEBUTTONDOWN:
+                location = p.mouse.get_pos() # (x, y) localização do mouse
+                col = location[0]//SQ_SIZE
+                row = location[1]//SQ_SIZE
+                sqSelected = (row, col)
+                if sqSelected == (row, col): # se o usuário clicar duas vezes no mesmo quadrado
+                    sqSelected = () # deselecionar
+                    playerClicks = [] # limpar o click do jogador
+                else:
+                    sqSelected = (row, col)
+                    playerClicks.append(sqSelected) # append para ambos os primeiro e segundo cliques
+                    if len(playerClicks) == 2:
+                        move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                        
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()
