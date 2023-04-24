@@ -39,8 +39,44 @@ class GameState():
         if len(self.moveLog) != 0: # tem certeza que há um movimento a se desfazer
              move = self.moveLog.pop()
              self.board[move.startRow][move.startCol] = move.pieceMoved
-             self.board[move.endRow][move.endRow] = move.pieceCaptured
+             self.board[move.endRow][move.endCow] = move.pieceCaptured
              self.whiteToMove = not self.whiteToMove # troca de turnos de volta
+
+    """
+    
+    """
+    def getValidMoves(self):
+        return self.getAllPossibleMoves() # Por enquanto sem me preocupar com cheques
+
+    """
+    
+    """
+    def getAllPossibleMoves(self):
+        moves = [Move((6,4), (4, 4), self.board)]
+        for r in range(len(self.board)): # Numero de linhas
+            for c in range(len(self.board[r])): # Numero de colunas em determinada linha
+                turn = self.board[r][c][0]
+                if (turn == 'w' and self.whiteToMove) and (turn == "b" and not self.whiteToMove):
+                    piece = self.board[r][c][1]
+                    if piece == 'p':
+                        self.getPawnMoves(r, c, moves)
+                    elif piece == 'R':
+                        self.getRookMoves(r, c, moves)
+            return moves
+
+
+    """
+
+    """
+    def getPawnMoves(self, r, c, moves):
+        pass              
+
+    """
+    
+    """
+
+    def getRookMoves(self, r, c, moves):
+        pass
 
 class Move():
     # mapeia chaves para valores

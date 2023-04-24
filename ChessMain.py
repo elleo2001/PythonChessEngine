@@ -34,6 +34,9 @@ def main():
     clock = p.time.Clock()
     screen.fill(p.Color("white"))
     gs = ChessEngine.GameState()
+    validMoves = gs.getValidMoves()
+    moveMade = False #
+
     loadImages()
     running = True
     sqSelected = () # Nenhum quadrado é selecionado, ele apenas rastreia o último clique do usuário (tuple: (row, col))
@@ -57,7 +60,9 @@ def main():
                     if len(playerClicks) == 2:
                         move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
                         print(move.getChessNotation())
-                        gs.makeMove(move)
+                        if move in validMoves:
+                            gs.makeMove(move)
+                            moveMade = True
                         sqSelected = () # reseta o click do usuário
                         playerClicks = []
                 
@@ -65,6 +70,10 @@ def main():
                     elif e.type == p.KEYDOWN:
                         if e.key == p.K_z: # desfaz quando 'z' é precionado
                             gs.undoMove()
+                            moveMade = True
+            if moveMade:
+                validMoves = gs.getValidMoves()
+                moveMade = False
 
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
