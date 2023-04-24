@@ -21,11 +21,27 @@ class GameState():
         self.whiteToMove = True
         self.moveLog = []
 
-        def makeMove(self, move):
+
+    """
+    -Recebe um movimento como parâmetro e o executa (isso não irá funcionar para roque, promoção de peão e en passant)
+    """
+    def makeMove(self, move):
             self.board[move.startRow][move.startCol] = "--"
             self.board[move.endRow][move.endCol] = move.pieceMoved
-            self.moveLog.append(move) #Fazer o log do movimento, para que seja possível desfazer depois
+            self.moveLog.append(move) # Fazer o log do movimento, para que seja possível desfazer depois
             self.whiteToMove = not self.whiteToMove #Trocar jogadores
+
+    """
+    -Desfaz o último movimento feito
+    """
+
+    def undoMove(self):
+        if len(self.moveLog) != 0: # tem certeza que há um movimento a se desfazer
+             move = self.moveLog.pop()
+             self.board[move.startRow][move.startCol] = move.pieceMoved
+             self.board[move.endRow][move.endRow] = move.pieceCaptured
+             self.whiteToMove = not self.whiteToMove # troca de turnos de volta
+
 class Move():
     # mapeia chaves para valores
     # key : value

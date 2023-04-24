@@ -42,6 +42,7 @@ def main():
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
+            # mouse handler
             elif e.type == p.MOUSEBUTTONDOWN:
                 location = p.mouse.get_pos() # (x, y) localização do mouse
                 col = location[0]//SQ_SIZE
@@ -55,7 +56,16 @@ def main():
                     playerClicks.append(sqSelected) # append para ambos os primeiro e segundo cliques
                     if len(playerClicks) == 2:
                         move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
-                        
+                        print(move.getChessNotation())
+                        gs.makeMove(move)
+                        sqSelected = () # reseta o click do usuário
+                        playerClicks = []
+                
+                # key handlers
+                    elif e.type == p.KEYDOWN:
+                        if e.key == p.K_z: # desfaz quando 'z' é precionado
+                            gs.undoMove()
+
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()
