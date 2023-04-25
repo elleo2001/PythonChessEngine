@@ -52,11 +52,11 @@ class GameState():
     
     """
     def getAllPossibleMoves(self):
-        moves = [Move((6,4), (4, 4), self.board)]
+        moves = []
         for r in range(len(self.board)): # Numero de linhas
             for c in range(len(self.board[r])): # Numero de colunas em determinada linha
                 turn = self.board[r][c][0]
-                if (turn == 'w' and self.whiteToMove) and (turn == "b" and not self.whiteToMove):
+                if (turn == 'w' and self.whiteToMove) or (turn == "b" and not self.whiteToMove):
                     piece = self.board[r][c][1]
                     if piece == 'p':
                         self.getPawnMoves(r, c, moves)
@@ -69,8 +69,15 @@ class GameState():
 
     """
     def getPawnMoves(self, r, c, moves):
-        pass              
-
+        pass
+        if self.whiteToMove: # movimentos do peão branco
+            if self.board[r-1][c] == "--": #
+                moves.append(Move(r, c), (r-1, c), self.board)
+                if r == 6 and self.board[r-2][c] == "--": #
+                    moves.append(Move(r, c), (r-2, c), self.board)
+            if c-1 >= 0: #
+                if self.board[r-1][c-1][0] == 'b': # peça inimiga para se capturar
+                    moves.append(Move(r-1, c-1), (r-1, c-1), self.board)
     """
     
     """
@@ -95,6 +102,16 @@ class Move():
         self.endCol = endSq[1]
         self.pieceMoved = board[self.startRow][self.startCol]
         self.pieceCaptured = board[self.endRow][self.endCol]
+        self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
+    
+    """
+
+    """
+    def __eq__(self, other):
+        if isinstance(other, Move):
+            return self.moveID == other.moveID
+        return False
+
 
     def getChessNotation(self):
         return self.getRankFile(self.startRow, self.startCol) + self.getRankFile(self.endRow, self.endCol)
