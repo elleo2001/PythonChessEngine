@@ -81,15 +81,34 @@ class GameState():
             if c+1 < 7: #
                 if self.board[r-1][c+1][0] == 'b':
                     moves.append(Move((r, c), (r-1, c+1), self.board))
-        else: self.blackToMove 
-    """
+
+        else: # movimentos do peão preto
+            if self.board[r + 1][c] == "--": # movimento de uma casa
+                moves.append(Move((r, c), (r +1, c), self.board))
+                if r == 1 and self.board[r + 2][c] == "--": # movimento de duas casas
+                    moves.append(Move((r, c), (r + 2, c), self.board))
+            # capturas
+            if c - 1 >= 0: # captura para a esquerda
+                if self.board[r + 1][c - 1][0] == 'w':
+                    moves.append(Move((r, c), (r + 1, c - 1), self.board))
+            if c + 1 <= 7: # captura para a direita
+                if self.board[r + 1][c + 1][0] == 'w':
+                    moves.append(Move((r, c), (r + 1, c + 1), self.board))
+        # adicionar promoções de peão depois
     
+    """
+    Pega todos os movimento para a torre localizados na linha, coluna e adiciona esses movimentos na lista
     """
 
     def getRookMoves(self, r, c, moves):
-        pass
-
-    """
+        directions = ((-1, 0), (0, -1), (1, 0), (0, 1))
+        enemyColor = "b" if self.whiteToMove else "w"
+        for d in directions:
+            for i in range(1, 8):
+                endRow = r + d[0] * i
+                endCol = c + d[1] * i
+                if 0 <= endRow < 8 and 0 <= endCol <8:
+                    endPiece = self.board[endRow[endCol]]
     
     """
 
@@ -110,8 +129,6 @@ class GameState():
     def getQueenMoves(self, r, c, moves):
         pass
 
-    """
-    
     """
 
     def getKingMoves(self, r, c, moves):
