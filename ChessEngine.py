@@ -101,14 +101,23 @@ class GameState():
     """
 
     def getRookMoves(self, r, c, moves):
-        directions = ((-1, 0), (0, -1), (1, 0), (0, 1))
+        directions = ((-1, 0), (0, -1), (1, 0), (0, 1)) # cima, esquerda, baixo e direita
         enemyColor = "b" if self.whiteToMove else "w"
         for d in directions:
             for i in range(1, 8):
                 endRow = r + d[0] * i
                 endCol = c + d[1] * i
-                if 0 <= endRow < 8 and 0 <= endCol <8:
+                if 0 <= endRow < 8 and 0 <= endCol <8: # assegurar que está no tabuleiro
                     endPiece = self.board[endRow[endCol]]
+                    if endPiece == "--": # espaço vazio válido
+                        moves.append(Move((r, c), (endRow, endCol), self.board))
+                    elif endPiece[0] == enemyColor: # peça inimiga válida
+                        moves.append(Move((r, c), (endRow, endCol), self.board))
+                        break
+                else: # peça amigável inválida
+                    break
+            else: #sair do tabuleiro
+                break
     
     """
 
@@ -117,12 +126,29 @@ class GameState():
 
     """
     
-    """
+    
 
     def getBishopMoves(self, r, c, moves):
-        pass
+        directions = ((-1, -1), (-1, 1), (1, -1), (1, 1)) # 4 diagonais
+        enemyColor = "b" if self.whiteToMove else "w"
+        for d in directions:
+            for i in range(1, 8): # bispo pode se mover no máximo 7 casas
+                endRow = r + d[0] * i
+                endCol = c + d[1] * i
+                if 0 <= endRow < 8 and 0 <= endCol < 8: # assegurar que está no tabuleiro
+                    endPiece = self.board[endRow][endCol] # se estiver no tabuleiro, eu pego a peça para se:  
+                    if endPiece == "--": # é uma casa vazia
+                        moves.append(Move((r, c), (endRow, endCol), self.board))
+                    elif endPiece[0] == enemyColor: # ou uma peça inimiga
+                        moves.append(Move((r, c), (endRow, endCol), self.board))
+                        break
+                    else: #
+                        break
+                else:
+                    break
+        
 
-    """
+    
     
     """
 
