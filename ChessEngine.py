@@ -119,12 +119,13 @@ class GameState():
             else: #sair do tabuleiro
                 break
     
-    """
+    
 
     def getKnightMoves(self, r, c, moves):
+        knightMoves = ((-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1), )
         pass
 
-    """
+    
     
     
 
