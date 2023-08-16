@@ -18,10 +18,10 @@ IMAGES = {}
 -Inicializa um dictionary de imagens. Será chamado exatamente uma vez no main.
 '''
 def loadImages():
-    pieces = ['wp', 'wR', 'wN', 'wB', 'wQ', 'wK', 'bp', 'bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bK', 'bR']
+    pieces = ['wp', 'wR', 'wN', 'wB', 'wQ', 'wK', 'bp', 'bR', 'bN', 'bB', 'bQ', 'bK']
     for piece in pieces:
-        IMAGES[piece] = p.transform.scale(p.image.load("images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE)) # For loop para carregar / ?fazer o display das imagens?
-    # Nota: é possível acessar uma imagem através de 'IMAGES['wp']'
+        IMAGES[piece] = p.transform.scale(p.image.load("images/" + piece + ".png"), (SQ_SIZE, SQ_SIZE)) # For loop para carregar as imagens / Definir altura e largura das imagens
+    # Nota: é possível acessar uma imagem através de 'IMAGES['wp']' por exemplo
 
 '''
 -Parte principal do código.
@@ -29,7 +29,6 @@ def loadImages():
 '''
 
 def main():
-    p.init()
     screen = p.display.set_mode((WIDTH, HEIGHT))
     clock = p.time.Clock()
     screen.fill(p.Color("white"))
@@ -90,7 +89,7 @@ def drawGameState(screen, gs):
 
 
 '''
--Desenha os quadrados no tabuleiro. O quadrado do top a esquerda é sempre branco.
+-Desenha os quadrados no tabuleiro. O quadrado do topo a esquerda é sempre branco.
 '''
 def drawBoard(screen):
     colors = [p.Color("white"), p.Color("gray")]

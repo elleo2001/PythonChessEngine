@@ -6,9 +6,9 @@
 class GameState():
     def __init__(self):
         # O tabuleiro é uma lista 2d 8x8, cada elemento da lista tem dois caracteres.
-        # O primeiro caractere representa a cor da peça, "b" ou "w".
-        # O segundo caractere representa o tipo da peça, "K", "Q", "p", etc.
-        # "--" - representa um espaço sem nenhuma peça.
+        # O primeiro caractere representa a cor da peça, "b"(black(preto)) ou "w"(white(branco)).
+        # O segundo caractere representa o tipo da peça, "K"(King(Rei)), "Q"(Queen(Rainha)), "p(pawn(peão))", etc.
+        # "--" - representa uma casa sem nenhuma peça.
         self.board = [
             ["bR", "bN", "bB", "bQ", "bK", "bB", "bK", "bR"],
             ["bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp",],
@@ -21,8 +21,8 @@ class GameState():
         self.moveFunction = {'p': self.getPawnMoves, 'R': self.getRookMoves, 'N': self.getKnightMoves,
                              'B': self.getBishopMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
         
-        self.whiteToMove = True
-        self.moveLog = []
+        self.whiteToMove = True # Determina de quem é a vez a jogar.
+        self.moveLog = [] # Armaneza os movimentos jogados.
 
 
     """
