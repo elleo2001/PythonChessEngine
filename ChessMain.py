@@ -5,7 +5,7 @@
 
 import pygame as p
 
-import ChessEngine
+import ChessEngine, SmartMoveFinder
 
 p.init() # Inicia o pygame
 WIDTH = HEIGHT = 512
